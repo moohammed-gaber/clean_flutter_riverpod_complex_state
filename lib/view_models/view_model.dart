@@ -3,19 +3,22 @@ import 'package:riverpod_test/repos/auth_repo.dart';
 import 'package:riverpod_test/exceptions/failures.dart';
 import 'package:riverpod_test/view_models/state.dart';
 
-class ViewModel extends StateNotifier<ViewModelState> {
+import 'events.dart';
+
+class ViewModel extends StateNotifier<ViewModelState> implements Events {
   final IAuthRepo authRepo;
 
   ViewModel(this.authRepo) : super(ViewModelState.initial());
 
+  @override
   void increment() {
     final newState = state.copyWith(
       counter: state.counter + 1,
     );
-    print(newState.counter);
     state = newState;
   }
 
+  @override
   void selectIndex(int index) {
     final newState = state.copyWith(
       selectedIndex: index,
@@ -23,9 +26,10 @@ class ViewModel extends StateNotifier<ViewModelState> {
     state = newState;
   }
 
+  @override
   void login() async {
     try {
-      final result = await authRepo.login(state.userName, state.password);
+      await authRepo.login(state.userName, state.password);
       state = state.copyWith(loginResult: LoginSuccess());
     } on InvalidEmailOrPasswordFailure catch (e) {
       final newState = state.copyWith();
@@ -33,6 +37,7 @@ class ViewModel extends StateNotifier<ViewModelState> {
     }
   }
 
+  @override
   void onChangedUserName(String value) {
     final newState = state.copyWith(
       userName: value,
@@ -40,6 +45,7 @@ class ViewModel extends StateNotifier<ViewModelState> {
     state = newState;
   }
 
+  @override
   void onChangedPassword(String value) {
     final newState = state.copyWith(
       password: value,
