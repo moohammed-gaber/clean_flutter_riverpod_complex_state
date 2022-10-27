@@ -12,16 +12,18 @@ class HomePage extends ConsumerWidget {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-          padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(20),
             child: Column(
-          children: [
-            Counter(),
-            GreenOrRedList(),
-            LoginForm(),
-            QuotesList(),
-            SizedBox(height: 80,)
-          ],
-        )),
+              children: [
+                Counter(),
+                GreenOrRedList(),
+                LoginForm(),
+                QuotesList(),
+                SizedBox(
+                  height: 80,
+                )
+              ],
+            )),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             ref.read(stateProvider.notifier).increment();
@@ -41,7 +43,11 @@ class Counter extends ConsumerWidget {
       stateProvider.select((value) => value.counter),
     );
 
-    return Center(child: Text(viewModel.toString(),style: TextStyle(fontSize: 30,fontWeight: FontWeight.w700),));
+    return Center(
+        child: Text(
+      viewModel.toString(),
+      style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+    ));
   }
 }
 
