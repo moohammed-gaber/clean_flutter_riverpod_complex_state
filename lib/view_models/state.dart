@@ -1,14 +1,4 @@
-import 'package:riverpod_test/exceptions/exceptions.dart';
-
-class LoginResult {}
-
-class LoginSuccess extends LoginResult {}
-
-class LoginFailure extends LoginResult {
-  final Failure failure;
-
-  LoginFailure(this.failure);
-}
+import 'package:riverpod_test/exceptions/failures.dart';
 
 class ViewModelState {
   final int counter;
@@ -51,4 +41,14 @@ class ViewModelState {
 
 // copy with
 
+}
+
+abstract class LoginResult {}
+
+class LoginSuccess extends LoginResult {}
+
+class LoginFailure extends LoginResult {
+  final Failure failure;
+
+  LoginFailure(this.failure);
 }

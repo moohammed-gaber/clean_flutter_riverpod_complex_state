@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_test/repos/auth_repo.dart';
-import 'package:riverpod_test/exceptions/exceptions.dart';
+import 'package:riverpod_test/exceptions/failures.dart';
 import 'package:riverpod_test/view_models/state.dart';
 import 'package:riverpod_test/view_models/view_model.dart';
 

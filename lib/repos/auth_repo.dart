@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:riverpod_test/exceptions/exceptions.dart';
+import 'package:riverpod_test/exceptions/failures.dart';
 
 abstract class IAuthRepo {
   Future<void> login(String userName, String password);
