@@ -2,32 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_test/injection/injection.dart';
 import 'package:riverpod_test/view_models/state.dart';
-import 'package:riverpod_test/view_models/view_model.dart';
 
 class HomePage extends ConsumerWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              children: [
-                Counter(),
-                GreenOrRedList(),
-                LoginForm(),
-                QuotesList(),
-                SizedBox(
-                  height: 80,
-                )
-              ],
-            )),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: const [
+              Counter(),
+              GreenOrRedList(),
+              LoginForm(),
+              Expanded(child: TodosList()),
+              SizedBox(height: 80)
+            ],
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            ref.read(stateProvider.notifier).increment();
-          },
+          onPressed: ref.read(stateProvider.notifier).increment,
+          child: const Icon(Icons.add),
         ),
       ),
     );
@@ -35,73 +32,52 @@ class HomePage extends ConsumerWidget {
 }
 
 class Counter extends ConsumerWidget {
-  const Counter({Key? key}) : super(key: key);
+  const Counter({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(
-      stateProvider.select((value) => value.counter),
-    );
+    final viewModel = ref.watch(stateProvider.select((value) => value.counter));
 
     return Center(
         child: Text(
       viewModel.toString(),
-      style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+      style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
     ));
   }
 }
 
-class QuotesList extends ConsumerWidget {
-  const QuotesList({Key? key}) : super(key: key);
+class TodosList extends ConsumerWidget {
+  const TodosList({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
     final quotes = ref.watch(
-      quotesProvider,
+      todosProvider,
     );
     return quotes.when(
         data: (data) {
-          return Column(
-            children: [
-              SizedBox(
-                height: 200,
-                child: Builder(builder: (context) {
-                  return ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                            ),
-                          ],
-                        ),
-                        width: 100,
-                        height: 100,
-                        child: Center(
-                          child: Text(
-                            data[index].quote,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(
-                        width: 10,
-                      );
-                    },
-                  );
-                }),
-              ),
-            ],
+          return ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (BuildContext context, int index) {
+              final current = data[index];
+              return Card(
+                child: ListTile(
+                  leading: CircleAvatar(
+                    child: Text(current.id.toString()),
+                  ),
+                  title: Text(
+                    current.title,
+                  ),
+                  subtitle: Text(
+                    current.completed ? 'completed' : 'in progress',
+                  ),
+                ),
+              );
+            },
           );
         },
         error: (err, stack) => Text('Error: $err'),
-        loading: () => CircularProgressIndicator());
+        loading: () => const CircularProgressIndicator());
   }
 }
 
@@ -118,27 +94,27 @@ class LoginForm extends ConsumerWidget {
         return;
       } else if (state.loginResult is LoginSuccess) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Login Success')));
+            .showSnackBar(const SnackBar(content: Text('Login Success')));
       } else {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Login Failure')));
+            .showSnackBar(const SnackBar(content: Text('Login Failure')));
       }
     });
     return Column(
       children: [
         TextField(
-          decoration: InputDecoration(hintText: 'Username'),
+          decoration: const InputDecoration(hintText: 'Username'),
           onChanged: provider.onChangedUserName,
         ),
         TextField(
-          decoration: InputDecoration(hintText: 'Password'),
+          decoration: const InputDecoration(hintText: 'Password'),
           onChanged: provider.onChangedPassword,
         ),
         ElevatedButton(
             onPressed: () {
               provider.login();
             },
-            child: Text('Login'))
+            child: const Text('Login'))
       ],
     );
   }
@@ -156,15 +132,12 @@ class GreenOrRedList extends ConsumerWidget {
     return SizedBox(
       height: 200,
       child: Builder(builder: (context) {
-        print('selectedIndex: $selectedIndex');
         return ListView.separated(
           scrollDirection: Axis.horizontal,
           itemCount: 5,
           itemBuilder: (BuildContext context, int index) {
             return InkWell(
-              onTap: () {
-                ref.read(stateProvider.notifier).selectIndex(index);
-              },
+              onTap: () => ref.read(stateProvider.notifier).selectIndex(index),
               child: Container(
                 width: 100,
                 height: 100,

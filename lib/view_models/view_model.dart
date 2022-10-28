@@ -11,20 +11,14 @@ class ViewModel extends StateNotifier<ViewModelState> implements Events {
   ViewModel(this.authRepo) : super(ViewModelState.initial());
 
   @override
-  void increment() {
-    final newState = state.copyWith(
-      counter: state.counter + 1,
-    );
-    state = newState;
-  }
+  void increment() => state = state.copyWith(
+        counter: state.counter + 1,
+      );
 
   @override
-  void selectIndex(int index) {
-    final newState = state.copyWith(
-      selectedIndex: index,
-    );
-    state = newState;
-  }
+  void selectIndex(int index) => state = state.copyWith(
+        selectedIndex: index,
+      );
 
   @override
   void login() async {
@@ -32,24 +26,17 @@ class ViewModel extends StateNotifier<ViewModelState> implements Events {
       await authRepo.login(state.userName, state.password);
       state = state.copyWith(loginResult: LoginSuccess());
     } on InvalidEmailOrPasswordFailure catch (e) {
-      final newState = state.copyWith();
       state = state.copyWith(loginResult: LoginFailure(e));
     }
   }
 
   @override
-  void onChangedUserName(String value) {
-    final newState = state.copyWith(
-      userName: value,
-    );
-    state = newState;
-  }
+  void onChangedUserName(String value) => state = state.copyWith(
+        userName: value,
+      );
 
   @override
-  void onChangedPassword(String value) {
-    final newState = state.copyWith(
-      password: value,
-    );
-    state = newState;
-  }
+  void onChangedPassword(String value) => state = state.copyWith(
+        password: value,
+      );
 }
