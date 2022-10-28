@@ -18,7 +18,6 @@ class HomePage extends ConsumerWidget {
               GreenOrRedList(),
               LoginForm(),
               Expanded(child: TodosList()),
-              SizedBox(height: 80)
             ],
           ),
         ),
