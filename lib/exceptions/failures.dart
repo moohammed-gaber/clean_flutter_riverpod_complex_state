@@ -1,8 +1,3 @@
-class Failure {
+class Failure {}
 
-
-}
-class InvalidEmailOrPasswordFailure extends Failure {
-
-
-}
+class InvalidEmailOrPasswordFailure extends Failure {}

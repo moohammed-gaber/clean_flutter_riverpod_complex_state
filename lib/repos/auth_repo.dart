@@ -5,14 +5,14 @@ abstract class IAuthRepo {
   Future<void> login(String userName, String password);
 }
 
-class AuthRepo implements IAuthRepo{
+class AuthRepo implements IAuthRepo {
   AuthRepo(this.dio);
 
   final Dio dio;
 
-  // login
+  @override
   Future<void> login(String userName, String password) async {
-    final delay = await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     if (userName == 'admin' && password == 'admin') {
       return;
     }
