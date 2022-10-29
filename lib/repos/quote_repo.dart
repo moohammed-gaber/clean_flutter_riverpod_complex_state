@@ -1,5 +1,5 @@
-import 'package:riverpod_test/models/quote.dart';
 import 'package:dio/dio.dart';
+import 'package:riverpod_test/models/quote.dart';
 
 abstract class IQuoteRepo {
   Future<List<Quote>> getQuotes();

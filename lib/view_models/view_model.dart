@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_test/repos/auth_repo.dart';
 import 'package:riverpod_test/exceptions/failures.dart';
+import 'package:riverpod_test/repos/auth_repo.dart';
 import 'package:riverpod_test/view_models/state.dart';
 
 import 'events.dart';
